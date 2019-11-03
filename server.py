@@ -104,12 +104,17 @@ def send():
             pop = census_data.get_population(lat, lng)
             #print(f"population: {pop}peeps")
 
-            result = {'warn_msg': ''}
+            result = {
+                'warn_msg': ''
+            }
+
             if pop is None:
                 warn_msg = "no population data at specified geolocation"
                 pop = 0
             elif pop < POP_CUTOFF and pop != 0:
                 warm_msg = f"population size is small: {pop} < {POP_CUTOFF} and estimations will be imprecise"
+            
+            result['pop'] = pop
             
             if pop == 0:
                 result['injuries'] = 0

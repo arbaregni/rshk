@@ -6,6 +6,10 @@
 <script type="text/javascript">
 var geocoder = new google.maps.Geocoder();
 
+function display_pop(raw) {
+  let output = 'Population: ' + raw;
+  document.getElementById('pop_info').innerHTML = output;
+}
 function display_injuries(raw) {
   let output = 'Injuries: ' + Math.max(0, Math.round(raw));
   document.getElementById('injury_info').innerHTML = output;
@@ -42,7 +46,10 @@ function submit_location() {
           alert('WARN: ' + data['warn_msg']);
         }
 
+        display_pop(data['pop'])
+        
         display_injuries(data['injuries'])
+        
         display_damages(data['damages'])
       }
     })    
@@ -226,6 +233,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
   <div id="infoPanel">
       <p id="analysis_header"> <b>Analysis on Disaster Damages:</b> </p>
+      <p id="pop_info"></p>
       <p id="injury_info"></p>
       <p id="damages_info"></p>
       <button id="submit_button" onclick="submit_location();" title="Submit current location and magnitude for analysis">Analyze</button>
