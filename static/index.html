@@ -6,12 +6,34 @@
 <script type="text/javascript">
 var geocoder = new google.maps.Geocoder();
 
+function display_injuries(raw) {
+  let output = 'Injuries: ' + Math.max(0, Math.round(raw));
+  document.getElementById('injury_info').innerHTML = output;
+}
+
+function display_damages(raw) {
+  let output = Math.max(0, raw);
+  if (output != 0)
+    output = output.toFixed(3);
+  document.getElementById('damages_info').innerHTML = "Damages: $" + output + " million";
+}
+
 function submit_location() {
-    $.getJSON('./send', 
-        function(data, textStatus, jqXHR) {
-            let output = 'Injuries: ' + Math.round(data['predictions'][0]['values'][0][0]);
-            document.getElementById('analysis_info').innerHTML = output;
-    })
+    let data = {
+      'magnitude': document.getElementById('magnitudeSlider').value,
+      'location': document.getElementById('loc_info').innerHTML,
+      'injuries': true,
+    };
+    $.ajax({
+      dataType: 'json',
+      url: './send',
+      data: data,
+      success: function(data, textStatus, jqXHR) {
+            alert('WARN: ' + data['warn_msg']);
+            display_injuries(data['injuries'])
+            display_damages(data['damages'])
+      }
+    })    
 }
 
 function geocodePosition(pos) {
@@ -171,7 +193,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
   <div id="infoPanel">
       <p id="analysis_header"> <b>Analysis on Disaster Damages:</b> </p>
       <button id="submit_button" onclick="submit_location();" title="Submit current location and magnitude for analysis">Analyze</button>
-      <p id="analysis_info">...</p>
+      <p id="injury_info">...</p>
+      <p id="damages_info">...</p>
   </div>
 
 </body>
