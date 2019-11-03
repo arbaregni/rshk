@@ -54,7 +54,7 @@ def createPayload( canvas_data ):
     return { "values" : payload_list }
 
 def get_samp_payload():
-    eq_primary = 7d
+    eq_primary = 7
     population = 21_000_000
     payload_scoring = {"input_data": [{"fields": ["EQ_PRIMARY", "POPULATION"], "values": [[eq_primary, population]] }]}
     return payload_scoring
@@ -96,16 +96,17 @@ def dummy_test():
 def root():
     return app.send_static_file( 'index.html' )
 
-@app.route( '/send') #, methods=['POST'] )
+@app.route( '/send', methods=['GET', 'POST'] )
 def send():
     try:
         print( "sending..." )
         if ENDPOINT_URL:
             payload = get_samp_payload()
             result = client.deployments.score( ENDPOINT_URL, payload )
-            print( "result: " + json.dumps( result, indent=3 ) )
-            return "27720 injuries";
-            #return jsonify( result )
+            print('result: ' + json.dumps( result, indent=3 ))
+            prediction = result['predictions'][0]['values'][0][0]
+            print(f'prediction: {prediction}')
+            return jsonify( result )
         else:
             err = "endpoint URL not set in 'server.py'"
             print( "\n\nError:\n" + err )
