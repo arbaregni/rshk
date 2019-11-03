@@ -114,7 +114,7 @@ def send():
             if pop == 0:
                 result['injuries'] = 0
                 result['damages'] = 0
-                return result
+                return jsonify( result )
 
             # CALCULATE EXPECTED INJURY COUNT
             injury_payload = create_payload_injuries(magnitude, pop)
