@@ -18,10 +18,8 @@ POP_CUTOFF = 2_000
 # 1.  Fill in wml_credentials.
 #
 
-#apikey = "DVkMuQdBKICKJrrWoRY_u-tpH1A_ixaiSoMB-XKH-fsT"
-
 wml_credentials = {
-  "apikey": "mAcWVA-89GKeXQFaWdOJMtg5FLyU3D6xKj4k5iKW105M",
+  "apikey": API_KEY, # replace with api key
   "iam_apikey_description": "Auto-generated for key abf05a66-5dea-4eca-8c28-dd9683828c23",
   "iam_apikey_name": "wdp-writer",
   "iam_role_crn": "crn:v1:bluemix:public:iam::::serviceRole:Writer",
